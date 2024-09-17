@@ -86,7 +86,23 @@ Emisat directly addresses emissions and carbon footprint reporting by:
 
 ## Appendix: Physical Modeling
 
-Our model combines top-down emission maps with wind fields to calculate NOx flux:
+### High-Level Overview
+
+Our model combines Copernicus NOx measurements with wind data to identify and quantify pollution sources. The process works as follows:
+
+1. **Data Collection**: We start with a raster of NO2 concentrations from satellite observations and corresponding wind vector data (speed and direction) for each pixel.
+
+2. **Flux Calculation**: By multiplying the NO2 concentration with the wind vector, we calculate a flux map showing the movement of NO2 across the area.
+
+3. **Divergence Analysis**: The core of our method lies in calculating the divergence of this flux. Divergence measures the net outflow of NO2 from each pixel. A positive divergence indicates a source, as more NO2 is flowing out than in.
+
+4. **Source Identification**: To identify and quantify emissions from specific sources like power plants, we analyze the divergence patterns. Strong positive divergence peaks often correspond to point sources.
+
+5. **Emission Quantification**: We use an iterative peak fitting algorithm to quantify emissions from these peaks.
+
+### Technical Details
+
+Our model calculates NOx flux using the following equation:
 
 ```
 F = L*V*w
